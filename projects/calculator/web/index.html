@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nova Calculator</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="shell">
+    <h1 class="page-title">Calculator</h1>
+
+    <section class="calculator-card" aria-label="Calculator">
+      <div class="display-wrap">
+        <div class="label-row">
+          <span>Expression</span>
+          <span id="connectionState">Ready</span>
+        </div>
+        <input id="display" class="display" type="text" value="0" aria-label="Calculator display" readonly />
+        <div id="result" class="result">&nbsp;</div>
+      </div>
+
+      <div class="keys" role="group" aria-label="Calculator buttons">
+        <button class="key utility" data-action="clear">C</button>
+        <button class="key utility" data-action="backspace">⌫</button>
+        <button class="key operator" data-value="(">(</button>
+        <button class="key operator" data-value=")">)</button>
+
+        <button class="key number" data-value="7">7</button>
+        <button class="key number" data-value="8">8</button>
+        <button class="key number" data-value="9">9</button>
+        <button class="key operator" data-value="/">÷</button>
+
+        <button class="key number" data-value="4">4</button>
+        <button class="key number" data-value="5">5</button>
+        <button class="key number" data-value="6">6</button>
+        <button class="key operator" data-value="*">×</button>
+
+        <button class="key number" data-value="1">1</button>
+        <button class="key number" data-value="2">2</button>
+        <button class="key number" data-value="3">3</button>
+        <button class="key operator" data-value="-">−</button>
+
+        <button class="key number wide" data-value="0">0</button>
+        <button class="key number" data-value=".">.</button>
+        <button class="key operator" data-value="+">+</button>
+        <button class="key equals" data-action="equals">=</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const display = document.getElementById('display');
+    const result = document.getElementById('result');
+    const connectionState = document.getElementById('connectionState');
+    const buttons = document.querySelectorAll('.key');
+
+    let expression = '';
+
+    const render = () => {
+      display.value = expression || '0';
+    };
+
+    const setStatus = (text) => {
+      connectionState.textContent = text;
+    };
+
+    const appendValue = (value) => {
+      if (expression === '0' && /[0-9.]/.test(value)) {
+        expression = value;
+      } else {
+        expression += value;
+      }
+      render();
+    };
+
+    const clearAll = () => {
+      expression = '';
+      result.innerHTML = '&nbsp;';
+      render();
+    };
+
+    const backspace = () => {
+      expression = expression.slice(0, -1);
+      render();
+    };
+
+    const evaluate = async () => {
+      if (!expression.trim()) {
+        result.textContent = 'Enter an expression first.';
+        return;
+      }
+
+      setStatus('Calculating...');
+      try {
+        const response = await fetch(`/api/calculate?expr=${encodeURIComponent(expression)}`);
+        const body = await response.text();
+        if (!response.ok) {
+          throw new Error(body);
+        }
+        result.textContent = `= ${body}`;
+        expression = body;
+        render();
+        setStatus('Ready');
+      } catch (error) {
+        result.textContent = error.message;
+        setStatus('Error');
+      }
+    };
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const action = button.dataset.action;
+        const value = button.dataset.value;
+
+        if (action === 'clear') {
+          clearAll();
+          return;
+        }
+
+        if (action === 'backspace') {
+          backspace();
+          return;
+        }
+
+        if (action === 'equals') {
+          evaluate();
+          return;
+        }
+
+        appendValue(value);
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (/[0-9.+\-*/()]/.test(event.key)) {
+        appendValue(event.key);
+      } else if (event.key === 'Backspace') {
+        backspace();
+      } else if (event.key === 'Escape') {
+        clearAll();
+      } else if (event.key === 'Enter') {
+        evaluate();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
