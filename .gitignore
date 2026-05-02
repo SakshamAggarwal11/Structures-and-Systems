@@ -1,0 +1,9 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Compiled binaries
+*.exe
+*.out
+*.o
+*.obj
