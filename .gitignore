@@ -7,3 +7,19 @@ Thumbs.db
 *.out
 *.o
 *.obj
+# Mac/Linux binaries (often no extension)
+    binomial_coefficient
+    sum_N
+    sum_digit
+    upper_lowercase
+    project_bin/
+    ```
+3.  **Save and Exit:** Press **`Ctrl+O`**, then **`Enter`**, then **`Ctrl+X`**.
+
+### One final step to clean GitHub:
+After you save the file, you still need to tell GitHub to "forget" the versions it already has. Run these commands one last time:
+```bash
+git rm --cached binomial_coefficient sum_N sum_digit upper_lowercase
+git add .gitignore
+git commit -m "Final cleanup of extensionless binaries"
+git push origin main
