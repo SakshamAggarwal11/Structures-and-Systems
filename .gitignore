@@ -23,3 +23,7 @@ git rm --cached binomial_coefficient sum_N sum_digit upper_lowercase
 git add .gitignore
 git commit -m "Final cleanup of extensionless binaries"
 git push origin main
+# Ignore all extensionless files in the c++ folder
+c++/*
+!c++/*/
+!c++/*.*
