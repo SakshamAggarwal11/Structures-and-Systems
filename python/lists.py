@@ -1,0 +1,16 @@
+# l=[1,2,3,4,5,6,7,8,9,10]
+# m=l.copy()
+# m[0]=0
+# print(l)
+# print(m)
+# tup=(1,)
+# print(type(tup),tup)
+l=(1,1,2,3,4,5)
+# temp=list(l)
+# temp.append(6)
+# temp.pop(1)
+# l=tuple(temp)
+# print(l)
+# k=(9,10)
+# print(type(l+k),l+k)  
+print(type(l),l.count(1),l)
