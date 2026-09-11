@@ -1,18 +1,19 @@
-# CSE-Foundations-CPP 🚀
+# CSE-Foundations-CPP-Py 🚀
 
-A structured collection of my journey through C and C++, covering everything from basic syntax to advanced Data Structures and full-scale projects.
+A structured collection of my journey through C, C++, and Python, covering everything from basic syntax and fundamental logic to advanced Data Structures and full-scale projects.
 
 ---
 
 ## 📂 What's Inside?
 
-*   **Basics:** Fundamental concepts, pointers, and memory management.
-*   **DSA:** Data structures (Trees, Graphs, Linked Lists) and optimized algorithms.
-*   **Projects:** Real-world applications and utility-based C++ programs.
+*   **Basics:** Fundamental concepts, control flow, pointers, memory management, and list/data manipulation.
+*   **DSA:** Core data structures (Lists, Trees, Graphs, Linked Lists) and optimized algorithms.
+*   **Projects:** Real-world applications, utility tools, and problem-solving exercises.
 
-## 🛠️ Setup
+## 🛠️ Setup & Execution
 
-To run any file:
+### C / C++
+To run any C++ file:
 ```bash
 g++ filename.cpp -o output
 ./output
